@@ -16,27 +16,24 @@ export default async function RootLayout({
   let user = null;
 
   try {
-    const res = await axios.get("http://localhost:8000/api/v1/auth/getUser");
+    const res = await axios.post("http://localhost:8000/api/v1/auth/getUser");
     const data = res.data;
     if (!data.success) {
       redirect("/login");
     }
 
     user = data.data;
+    console.log({user});
+    
   } catch (err) {
     if (axios.isAxiosError(err)) {
       const data = err.response?.data;
-      console.error("Auth check failed:", data);
+      console.log("Auth check failed:", data);
 
       if (data && data.success === false) {
         redirect("/login");
       }
     }
-
-    // fallback
-    redirect("/login");
-
-    redirect("/login");
   }
 
   return (

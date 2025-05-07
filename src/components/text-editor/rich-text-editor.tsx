@@ -1,7 +1,7 @@
 "use client"; // If you're using Next.js App Router
 
 import "quill/dist/quill.snow.css";
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 
 interface QuillEditorProps {
   value?: string;
@@ -9,11 +9,31 @@ interface QuillEditorProps {
   options?: any; // Avoiding type conflict from direct Quill reference
 }
 
-const QuillEditor: React.FC<QuillEditorProps> = ({
+const quillOptions = {
+  theme: "snow",
+  placeholder: "Write your blog content here...",
+  modules: {
+    toolbar: {
+      container: [
+        [{ header: [1, 2, 3, 4, false] }],
+        [{ size: ["small", "normal", "large", "huge"] }],
+        ["bold", "italic", "underline", "strike"],
+        [{ list: "ordered" }, { list: "bullet" }],
+        [{ indent: "-1" }, { indent: "+1" }],
+        [{ align: [] }],
+        ["blockquote", "code-block"],
+        // ["link", "image", "video"],
+        ["clean"],
+      ],
+    },
+  },
+};
+
+export default function QuillEditor({
   value = "",
   onChange,
-  options,
-}) => {
+  options = quillOptions,
+}: QuillEditorProps) {
   const editorRef = useRef<HTMLDivElement>(null);
   const quillInstance = useRef<any>(null); // Use 'any' to avoid issues with Quill type on SSR
 
@@ -56,7 +76,10 @@ const QuillEditor: React.FC<QuillEditorProps> = ({
     }
   }, [value]);
 
-  return <div ref={editorRef} />;
-};
-
-export default QuillEditor;
+  return (
+    <div
+      ref={editorRef}
+      className="bg-white  min-h-[150px] max-h-[400px] overflow-y-auto"
+    />
+  );
+}
