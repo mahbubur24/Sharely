@@ -5,12 +5,40 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
+import axios from "axios";
+import { redirect } from "next/navigation";
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  let user = null;
+
+  try {
+    const res = await axios.get("http://localhost:8000/api/v1/auth/getUser");
+    const data = res.data;
+    if (!data.success) {
+      redirect("/login");
+    }
+
+    user = data.data;
+  } catch (err) {
+    if (axios.isAxiosError(err)) {
+      const data = err.response?.data;
+      console.error("Auth check failed:", data);
+
+      if (data && data.success === false) {
+        redirect("/login");
+      }
+    }
+
+    // fallback
+    redirect("/login");
+
+    redirect("/login");
+  }
+
   return (
     <SidebarProvider>
       <AppSidebar />

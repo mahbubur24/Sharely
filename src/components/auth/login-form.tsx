@@ -1,15 +1,18 @@
 "use client";
 
+import { AuthFormData, authSchema } from "@/lib/schemas/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { authSchema, AuthFormData } from "@/lib/schemas/auth";
-import { useState } from "react";
+import axios from "axios";
+import { Loader2, Lock, LogIn, Mail } from "lucide-react";
 import Link from "next/link";
-import { Mail, Lock, LogIn, Loader2 } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 
 export function LoginForm() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+  const router = useRouter();
 
   const {
     register,
@@ -22,11 +25,21 @@ export function LoginForm() {
   const onSubmit = async (data: AuthFormData) => {
     setIsLoading(true);
     setError("");
-    
+    const { email, password } = data;
     try {
       console.log("Logging in:", data);
-      // Replace with actual login logic
-      // await signIn(data);
+      const res = await axios.post("http://localhost:8000/api/v1/auth/login", {
+        email,
+        password,
+      });
+
+      if (res.data.success) {
+        console.log(res.data.message);
+        router.push("/dashboard");
+      } else {
+        setError(res.data.message);
+        return;
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : "Login failed");
     } finally {
@@ -35,7 +48,7 @@ export function LoginForm() {
   };
 
   return (
-    <div className="min-h-screen bg-white flex items-center justify-center p-4">
+    <div className=" my-6 bg-white flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-red-600 mb-2">Welcome Back</h1>
@@ -50,7 +63,10 @@ export function LoginForm() {
           )}
 
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
               Email
             </label>
             <div className="relative">
@@ -68,12 +84,17 @@ export function LoginForm() {
               />
             </div>
             {errors.email && (
-              <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>
+              <p className="mt-1 text-sm text-red-600">
+                {errors.email.message}
+              </p>
             )}
           </div>
 
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
               Password
             </label>
             <div className="relative">
@@ -91,7 +112,9 @@ export function LoginForm() {
               />
             </div>
             {errors.password && (
-              <p className="mt-1 text-sm text-red-600">{errors.password.message}</p>
+              <p className="mt-1 text-sm text-red-600">
+                {errors.password.message}
+              </p>
             )}
           </div>
 
@@ -103,13 +126,19 @@ export function LoginForm() {
                 type="checkbox"
                 className="h-4 w-4 text-red-600 focus:ring-red-500 border-gray-300 rounded"
               />
-              <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-700">
+              <label
+                htmlFor="remember-me"
+                className="ml-2 block text-sm text-gray-700"
+              >
                 Remember me
               </label>
             </div>
 
             <div className="text-sm">
-              <Link href="/forgot-password" className="font-medium text-red-600 hover:text-red-500">
+              <Link
+                href="/forgot-password"
+                className="font-medium text-red-600 hover:text-red-500"
+              >
                 Forgot password?
               </Link>
             </div>
@@ -138,7 +167,7 @@ export function LoginForm() {
           <p className="text-sm text-gray-600">
             Don't have an account?{" "}
             <Link
-              href="/registration"
+              href="/signup"
               className="font-medium text-red-600 hover:text-red-500 focus:outline-none"
             >
               Sign up
