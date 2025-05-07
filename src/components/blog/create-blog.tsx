@@ -20,7 +20,7 @@ export default function CreatePost() {
         onChange={(e) => setTitle(e.target.value)}
         placeholder="Post Title"
       />
-      <RichTextEditor value={content} onChange={setContent} />
+      <RichTextEditor />
       <button onClick={handleSubmit}>Publish</button>
     </div>
   );
