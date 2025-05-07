@@ -1,48 +1,62 @@
-// components/RichTextEditor.tsx
-"use client";
-import dynamic from "next/dynamic";
-import ImageResize from "quill-image-resize-module-react";
-import { useState } from "react";
-import ReactQuill,  from "react-quill";
-import Quill from 'quill';
-import "react-quill/dist/quill.snow.css";
+"use client"; // If you're using Next.js App Router
 
-// Dynamically import to prevent SSR issues
-// const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
+import "quill/dist/quill.snow.css";
+import React, { useEffect, useRef } from "react";
 
-const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
+interface QuillEditorProps {
+  value?: string;
+  onChange?: (value: string) => void;
+  options?: any; // Avoiding type conflict from direct Quill reference
+}
 
-Quill.register("modules/imageResize", ImageResize);
-const modules = {
-  toolbar: [
-    [{ header: [1, 2, false] }],
-    ["bold", "italic", "underline"],
-    ["link", "image", "code-block"],
-    [{ list: "ordered" }, { list: "bullet" }],
-    ["clean"],
-  ],
-  clipboard: { matchVisual: false },
-  imageResize: {},
+const QuillEditor: React.FC<QuillEditorProps> = ({
+  value = "",
+  onChange,
+  options,
+}) => {
+  const editorRef = useRef<HTMLDivElement>(null);
+  const quillInstance = useRef<any>(null); // Use 'any' to avoid issues with Quill type on SSR
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const loadQuill = async () => {
+      const Quill = (await import("quill")).default;
+
+      if (editorRef.current && !quillInstance.current && isMounted) {
+        quillInstance.current = new Quill(editorRef.current, {
+          theme: "snow",
+          ...options,
+        });
+
+        quillInstance.current.root.innerHTML = value;
+
+        quillInstance.current.on("text-change", () => {
+          const html = quillInstance.current?.root.innerHTML || "";
+          onChange?.(html);
+        });
+      }
+    };
+
+    loadQuill();
+
+    return () => {
+      isMounted = false;
+      if (quillInstance.current) {
+        quillInstance.current.off("text-change");
+        quillInstance.current = null;
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    const editor = quillInstance.current;
+    if (editor && editor.root.innerHTML !== value) {
+      editor.root.innerHTML = value || "";
+    }
+  }, [value]);
+
+  return <div ref={editorRef} />;
 };
 
-export default function RichTextEditor() {
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState<any>("");
-
-  const handleSubmit = async () => {
-    await fetch("/api/posts", {
-      method: "POST",
-      body: JSON.stringify({ title, content }),
-      headers: { "Content-Type": "application/json" },
-    });
-  };
-  return (
-    <ReactQuill
-      value={content}
-      onChange={setContent}
-      modules={modules}
-      theme="snow"
-      placeholder="Start typing here"
-    />
-  );
-}
+export default QuillEditor;

@@ -1,5 +1,9 @@
-import RichTextEditor from "@/components/text-editor/rich-text-editor";
+import QuillEditor from "@/components/text-editor/rich-text-editor";
 
 export default function Page() {
-  return <RichTextEditor />;
+  return (
+    <div className="w-[80%] mx-auto min-h-[600px]">
+      <QuillEditor />
+    </div>
+  );
 }
