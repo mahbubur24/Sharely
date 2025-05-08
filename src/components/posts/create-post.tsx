@@ -21,64 +21,125 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { generateSlug } from "@/lib/utility/get-slug";
+import axios from "axios";
 import { useState } from "react";
 import * as z from "zod";
 import { FileUploader } from "../file-uploader";
 import QuillEditor from "../text-editor/rich-text-editor";
 import { Button } from "../ui/button";
 
-const formSchema = z.object({
-  name_3112661282: z.string().min(1),
-  name_0109482076: z.array(z.string()).nonempty("Please at least one item"),
-  name_9898359557: z.string().min(1),
-  name_8120162844: z.array(z.string()).nonempty("Please at least one item"),
+export const postSchema = z.object({
+  title: z.string().min(1, "Title is required"),
+  postSlug: z.string().min(1, "Slug is required"),
+  content: z.string().min(1, "Content is required"),
+  categories: z
+    .array(z.string().min(1))
+    .nonempty({ message: "At least one category is required" }),
 });
 
 export default function CreatePostForm() {
   const [content, setContent] = useState("");
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const [slug, setSlug] = useState("");
+  const [files, setFiles] = useState<File[]>([]);
+  const form = useForm<z.infer<typeof postSchema>>({
+    resolver: zodResolver(postSchema),
     defaultValues: {
-      name_0109482076: ["React"],
-      name_8120162844: ["React"],
+      categories: ["React"],
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  form.watch("content");
+  const handleSetContent = (text: string) => {
+    setContent(text);
+    form.setValue("content", text, { shouldValidate: true });
+  };
+
+  form.watch("postSlug");
+  const handleCreateSlug = (text: string) => {
+    const slug = generateSlug(text);
+    form.setValue("postSlug", slug, { shouldValidate: true });
+    setSlug(slug);
+  };
+
+  async function onSubmit(data: z.infer<typeof postSchema>) {
+    const formData = new FormData();
+
+    formData.append("title", data.title);
+    formData.append("slug", data.postSlug);
+    formData.append("content", data.content);
+
+    data.categories.forEach((cat: string) =>
+      formData.append("categories", cat)
+    );
+
+    Array.from(files).forEach((file: any) => {
+      formData.append("images", file);
+    });
     try {
-      console.log(values);
-      toast(
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(values, null, 2)}</code>
-        </pre>
+      console.log(formData.get("title"));
+
+      const status = axios.post(
+        "http://localhost:8000/api/v1/post/create",
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
       );
-    } catch (error) {
-      console.error("Form submission error", error);
+      console.log({ status });
+    } catch (err) {
+      if (axios.isAxiosError(err)) {
+        if (err.response) {
+          // Server responded with a status code out of 2xx
+          console.error("Status:", err.response.status);
+          console.error("Data:", err.response.data);
+          console.error("Message:", err.response.data.message);
+        } else if (err.request) {
+          // Request was made but no response received
+          console.error("No response from server");
+        } else {
+          // Something went wrong in setting up the request
+          console.error("Axios Error:", err.message);
+        }
+      }
+      console.error("Form submission error", err);
       toast.error("Failed to submit the form. Please try again.");
     }
   }
 
+  function onErr(err: any) {
+    console.log({ err });
+  }
   return (
     <section className="relative">
       <Form {...form}>
         <form
           id="create-post-form"
-          onSubmit={form.handleSubmit(onSubmit)}
+          onSubmit={form.handleSubmit(onSubmit, onErr)}
           className="space-y-8 bg-white mx-auto p-2 mt-2"
         >
+          {/* title */}
           <div className="grid grid-cols-12 gap-4">
             <div className="col-span-6">
               <FormField
                 control={form.control}
-                name="name_3112661282"
+                name="title"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Username</FormLabel>
+                    <FormLabel>Post Title : </FormLabel>
                     <FormControl>
-                      <Input placeholder="shadcn" type="" {...field} />
+                      <Input
+                        placeholder="post title"
+                        type=""
+                        {...field}
+                        onChange={(e) => {
+                          field.onChange(e);
+                          handleCreateSlug(e.target.value);
+                        }}
+                      />
                     </FormControl>
                     <FormDescription>
-                      This is your public display name.
+                      This is your public post title.
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
@@ -86,39 +147,26 @@ export default function CreatePostForm() {
               />
             </div>
 
+            {/* slug */}
             <div className="col-span-6">
               <FormField
                 control={form.control}
-                name="name_0109482076"
+                name="postSlug"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Select your framework</FormLabel>
+                    <FormLabel>Slug</FormLabel>
                     <FormControl>
-                      <MultiSelector
-                        values={field.value}
-                        onValuesChange={field.onChange}
-                        loop
-                        className="max-w-xs"
-                      >
-                        <MultiSelectorTrigger>
-                          <MultiSelectorInput placeholder="Select languages" />
-                        </MultiSelectorTrigger>
-                        <MultiSelectorContent>
-                          <MultiSelectorList>
-                            <MultiSelectorItem value={"React"}>
-                              React
-                            </MultiSelectorItem>
-                            <MultiSelectorItem value={"Vue"}>
-                              Vue
-                            </MultiSelectorItem>
-                            <MultiSelectorItem value={"Svelte"}>
-                              Svelte
-                            </MultiSelectorItem>
-                          </MultiSelectorList>
-                        </MultiSelectorContent>
-                      </MultiSelector>
+                      <Input
+                        placeholder="slug"
+                        type=""
+                        {...field}
+                        value={slug}
+                        disabled
+                      />
                     </FormControl>
-                    <FormDescription>Select multiple options.</FormDescription>
+                    <FormDescription>
+                      This is your public display name.
+                    </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -127,10 +175,10 @@ export default function CreatePostForm() {
           </div>
 
           <div className="grid grid-cols-12 gap-4">
-            <div className="col-span-6">
+            {/* <div className="col-span-6">
               <FormField
                 control={form.control}
-                name="name_9898359557"
+                name="content"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Username</FormLabel>
@@ -144,24 +192,28 @@ export default function CreatePostForm() {
                   </FormItem>
                 )}
               />
-            </div>
+            </div> */}
 
+            {/* categories */}
             <div className="col-span-6">
               <FormField
                 control={form.control}
-                name="name_8120162844"
+                name="categories"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Select your framework</FormLabel>
+                    <FormLabel>Post Category :</FormLabel>
                     <FormControl>
                       <MultiSelector
                         values={field.value}
                         onValuesChange={field.onChange}
                         loop
-                        className="max-w-xs"
+                        className="max-w-xs "
                       >
-                        <MultiSelectorTrigger>
-                          <MultiSelectorInput placeholder="Select languages" />
+                        <MultiSelectorTrigger className="border-2 bg-slate-900">
+                          <MultiSelectorInput
+                            placeholder="type to search"
+                            className="text-white placeholder:text-white  "
+                          />
                         </MultiSelectorTrigger>
                         <MultiSelectorContent>
                           <MultiSelectorList>
@@ -178,21 +230,26 @@ export default function CreatePostForm() {
                         </MultiSelectorContent>
                       </MultiSelector>
                     </FormControl>
-                    <FormDescription>Select multiple options.</FormDescription>
+                    <FormDescription>
+                      you can select multiple categories.
+                    </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
               />
+            </div>
+            <div className="col-span-6">
+              <FormLabel>Upload Images :</FormLabel>
+              <FileUploader onUploadCompleted={setFiles} />
             </div>
           </div>
         </form>
       </Form>
-      <div className="">
-        <FileUploader />
-        <QuillEditor value={content} onChange={setContent} />
+      <div className="my-1">
+        <QuillEditor value={content} onChange={handleSetContent} />
       </div>
-      <Button type="submit" form="create-post-form" className="absolute">
-        Submit
+      <Button type="submit" form="create-post-form" className="my-2">
+        Create Post
       </Button>
     </section>
   );

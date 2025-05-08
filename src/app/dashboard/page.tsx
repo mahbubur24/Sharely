@@ -1,12 +1,14 @@
 "use client";
 
-import React from "react";
-import { User, Eye, MessageCircle, FileText } from "lucide-react";
-import MiniCard from "@/components/ui/dashboard/mini-card";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import MiniCard from "@/components/ui/dashboard/mini-card";
+import { Eye, FileText, MessageCircle, User } from "lucide-react";
+import { useEffect } from "react";
 
 import ApexChart from "@/components/ui/chart";
 import RecentUsers from "@/components/ui/dashboard/user-table";
+import axios from "axios";
+import { redirect } from "next/navigation";
 
 const users = [
   { name: "Alice", email: "alice@example.com", joined: "2025-04-30" },
@@ -17,6 +19,9 @@ const users = [
 ];
 
 function Page() {
+  let user = null;
+
+ 
   return (
     <div className="p-6">
       {/* Mini Cards */}
@@ -53,3 +58,4 @@ function Page() {
 }
 
 export default Page;
+

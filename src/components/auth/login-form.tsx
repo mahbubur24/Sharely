@@ -28,10 +28,17 @@ export function LoginForm() {
     const { email, password } = data;
     try {
       console.log("Logging in:", data);
-      const res = await axios.post("http://localhost:8000/api/v1/auth/login", {
-        email,
-        password,
-      });
+      const res = await axios.post(
+        "http://localhost:8000/api/v1/auth/login",
+        {
+          email,
+          password,
+        },
+        {
+          withCredentials: true, // Important for sending/receiving cookies
+        }
+      );
+      
 
       if (res.data.success) {
         console.log(res.data.message);
@@ -40,6 +47,7 @@ export function LoginForm() {
         setError(res.data.message);
         return;
       }
+      
     } catch (err) {
       setError(err instanceof Error ? err.message : "Login failed");
     } finally {

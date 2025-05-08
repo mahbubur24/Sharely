@@ -16,6 +16,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
+import { useUser } from "@/lib/context/user-context";
 import Link from "next/link";
 
 export function TeamSwitcher({
@@ -34,6 +35,7 @@ export function TeamSwitcher({
     return null;
   }
 
+  const { user } = useUser();
   return (
     <SidebarMenu>
       <SidebarMenuItem>
@@ -47,8 +49,8 @@ export function TeamSwitcher({
                 <activeTeam.logo className="size-4" />
               </div>
               <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-medium">User Name</span>
-                <span className="truncate text-xs">user@email.com</span>
+                <span className="truncate font-medium">{user?.name}</span>
+                <span className="truncate text-xs">{user?.email}</span>
               </div>
               <ChevronsUpDown className="ml-auto" />
             </SidebarMenuButton>

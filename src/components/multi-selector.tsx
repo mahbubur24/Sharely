@@ -73,8 +73,8 @@ const MultiSelector = ({
 
   const onValueChangeHandler = useCallback(
     (val: string) => {
-      if (value.includes(val)) {
-        onValueChange(value.filter((item) => item !== val));
+      if (value?.includes(val)) {
+        onValueChange(value?.filter((item) => item !== val));
       } else {
         onValueChange([...value, val]);
       }
@@ -238,7 +238,7 @@ const MultiSelectorTrigger = forwardRef<
       )}
       {...props}
     >
-      {value.map((item, index) => (
+      {value?.map((item, index) => (
         <Badge
           key={item}
           className={cn(
@@ -352,7 +352,7 @@ const MultiSelectorItem = forwardRef<
     e.stopPropagation();
   }, []);
 
-  const isIncluded = Options.includes(value);
+  const isIncluded = Options?.includes(value);
   return (
     <CommandItem
       ref={ref}

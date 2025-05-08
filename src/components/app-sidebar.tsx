@@ -19,6 +19,7 @@ import {
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar";
+import axios from "axios";
 import { Button } from "./ui/button";
 
 // This is sample data.
@@ -54,11 +55,11 @@ const data = {
       items: [
         {
           title: "All Posts",
-          url: "/all-posts",
+          url: "/dashboard/all-posts",
         },
         {
           title: "Create New Post",
-          url: "#",
+          url: "/dashboard/create-post",
         },
         {
           title: "Drafts",
@@ -94,6 +95,19 @@ const data = {
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const handleLogout = () => {
+    try {
+      const res = axios.post("http://localhost:8000/api/v1/auth/logout", {
+        withCredentials: true,
+      });
+      console.log({ res });
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.log({ error });
+      }
+    }
+  };
+
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
@@ -105,7 +119,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarContent>
       <SidebarFooter>
         {/* <NavUser user={data.user} /> */}
-        <Button>Logout</Button>
+        <Button onClick={handleLogout}>Logout</Button>
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>
