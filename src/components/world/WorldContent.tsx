@@ -1,19 +1,21 @@
 import { foregroundContent } from "@/static/constants";
-import Button from "../shared/ButtonProps";
 import Image from "next/image";
+import Button from "../shared/ButtonProps";
 
 function WorldContent() {
   return (
     <div className="relative w-full h-[500px] bg-white my-10">
       <div className="absolute top-0 right-0 h-full w-full md:w-[80%] bg-red-500" />
 
-      <div className="relative z-10 p-6 text-black flex flex-col md:flex-row items-center md:gap-25
+      <div
+        className="relative z-10 p-6 text-black flex flex-col md:flex-row items-center md:gap-25
       h-full justify-center
-      ">
+      "
+      >
         {/* Left - Image */}
         <div className="relative w-full md:w-1/2 h-[400px]">
           <Image
-            src={foregroundContent.imageUrl}
+            src={`http://localhost:8000/uploads/`}
             alt="Tagline Image"
             fill
             className="object-cover rounded-md"

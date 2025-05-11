@@ -1,3 +1,4 @@
+"use client";
 import { AppSidebar } from "@/components/app-sidebar";
 import { Separator } from "@/components/ui/separator";
 import {
@@ -5,16 +6,19 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { UserProvider } from "@/lib/context/user-context";
+import dynamic from "next/dynamic";
 import DashboardPage from "./dashboard";
+const UserWrapper = dynamic(() => import("@/components/user-wrapper"), {
+  ssr: false,
+});
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <UserProvider>
+    <UserWrapper>
       <DashboardPage>
         <SidebarProvider>
           <AppSidebar />
@@ -34,6 +38,6 @@ export default async function RootLayout({
           </SidebarInset>
         </SidebarProvider>
       </DashboardPage>
-    </UserProvider>
+    </UserWrapper>
   );
 }

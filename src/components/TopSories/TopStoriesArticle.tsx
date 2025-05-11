@@ -1,17 +1,15 @@
-import { CardProps } from "@/components/ui/healthcard";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
-import ShareableBadge from "../shared/ShareableBadge";
 import PostMeta from "../shared/PostMeta";
+import ShareableBadge from "../shared/ShareableBadge";
 
-function TopStoriesArticle({ card }: CardProps) {
+function TopStoriesArticle({ card }: { card: any }) {
   return (
-    <Link href={`/posts/${card?.id}`} key={card?.id} className="group">
+    <Link href={`/posts/${card?.slug}`} key={card?.id} className="group">
       <div className="space-y-4">
         <div className="overflow-hidden rounded-md relative w-full h-[300px]">
           <Image
-            src={card?.imageUrl}
+            src={`http://localhost:8000/uploads/${card?.imageUrl}`}
             alt={card?.title}
             fill
             className="object-cover group-hover:scale-105 transition-transform duration-300"

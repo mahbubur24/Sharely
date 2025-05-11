@@ -1,22 +1,28 @@
 "use client";
 
-import { menuItems } from "@/static/navmenuItems";
+import axios from "axios";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { HiMenu, HiX } from "react-icons/hi";
-import SearchBar from "../shared/SearchBar";
-import MultiFilter from "../shared/Filter";
 
 export default function HorizontalBar() {
   const [isOpen, setIsOpen] = useState(false);
-  const handleSearch = (query: string) => {
-    console.log("Search for:", query);
-    // Route to search page or filter list, etc.
-  };
-  const handleFilterChange = (selected: Record<string, string[]>) => {
-    console.log("Selected filters:", selected);
-    // API CALL
-  };
+  const [menus, setMenus] = useState<any[]>([]);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await axios.get(
+          "http://localhost:8000/api/v1/category/all"
+        );
+        setMenus(res.data.data);
+      } catch (error) {
+        console.log({ error });
+      }
+      return;
+    })();
+  }, []);
+
   return (
     <nav className="bg-[#fdfcf8] px-6 py-4 h-auto">
       {/* Top: Logo and Hamburger (Mobile) */}
@@ -37,7 +43,7 @@ export default function HorizontalBar() {
 
       {/* Menu Items */}
       <ul
-        className={`overflow-hidden flex-col md:flex md:flex-row md:items-center md:justify-center gap-6 md:gap-8 
+        className={` overflow-scroll sm:hide-scrollbar  sm:px-20 flex-col md:flex md:flex-row md:items-center md:justify-center gap-6 md:gap-8 
           transition-all duration-500 ease-in-out
           ${
             isOpen
@@ -46,23 +52,17 @@ export default function HorizontalBar() {
           }
         `}
       >
-        {menuItems.map((item) => (
-          <li key={item.href}>
+        {menus.map((item) => (
+          <li key={item.id}>
             <Link
-              href={item.href}
+              href={`/category/${item.name}`}
               className="text-sm font-semibold text-black hover:text-red-600 transition-colors"
               onClick={() => setIsOpen(false)} // close mobile menu on click
             >
-              {item.label}
+              {item.name}
             </Link>
           </li>
         ))}
-        <SearchBar onSearch={handleSearch} />
-        <div className="mt-2 md:mt-0">
-          <MultiFilter
-            onChange={(selected) => handleFilterChange({ category: selected })}
-          />
-        </div>
       </ul>
     </nav>
   );

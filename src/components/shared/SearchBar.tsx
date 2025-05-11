@@ -1,30 +1,30 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { Search } from 'lucide-react';
+import { Search } from "lucide-react";
+import { useState } from "react";
 
 type SearchBarProps = {
   placeholder?: string;
-  onSearch: (query: string) => void;
+  onSearch?: (query: string) => void;
 };
 
 const SearchBar = ({ placeholder = "Search...", onSearch }: SearchBarProps) => {
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState("");
 
   const handleSearch = () => {
     if (query.trim()) {
-      onSearch(query);
+      onSearch?.(query);
     }
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       handleSearch();
     }
   };
 
   return (
-    <div className="flex items-center w-auto max-w-md rounded-lg border px-3 py-2 bg-white shadow-sm">
+    <div className="flex items-center w-auto max-w-md  border px-3 py-2 bg-white shadow-sm">
       <Search className="w-5 h-5 text-gray-400" />
       <input
         type="text"

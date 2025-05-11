@@ -1,46 +1,32 @@
 "use client";
 
 import { useUser } from "@/lib/context/user-context";
+import { useRouter } from "next/navigation";
+
+import { useEffect } from "react";
 
 export default function DashboardPage({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  let user = null;
+  const { user, loading } = useUser();
+  const router = useRouter();
 
-  // const [isLoading, setIsLoading] = useState(true);
+  useEffect(() => {
+    if (!loading && !user) {
+      router.push("/login");
+    }
+  }, [loading, user, router]);
 
-  // useEffect(() => {
-  //   checkUser();
-  // }, []);
+  if (loading) {
+    return <div>Loading...</div>; // or spinner
+  }
 
-  // async function checkUser() {
-  //   try {
-  //     const res = await axios.get("http://localhost:8000/api/v1/auth/getUser", {
-  //       withCredentials: true,
-  //     });
-  //     const data = res.data;
-  //     if (!data.success) {
-  //       redirect("/login");
-  //     }
-  //     console.log(res.data);
+  if (!user) return null;
 
-  //     user = data.data;
-  //     // console.log({ user });
-  //   } catch (err) {
-  //     if (axios.isAxiosError(err)) {
-  //       const data = err.response?.data;
-  //       console.log("Auth check failed:", data);
+  // if (!user)
+  console.log({ user });
 
-  //       if (data && data.success === false) {
-  //         redirect("/login");
-  //       }
-  //     }
-  //   }
-  //   setIsLoading(false);
-  // }
-
-  const { loading: isLoading } = useUser();
-  return <div>{isLoading ? <h2>Loading</h2> : <div>{children}</div>}</div>;
+  return <div>{children}</div>;
 }

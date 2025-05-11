@@ -17,7 +17,7 @@ export default function OverLaySection({
       <div className={`relative w-full ${height} rounded-md overflow-hidden`}>
         {/* Background Image */}
         <Image
-          src={imageUrl}
+           src={`http://localhost:8000/uploads/${imageUrl}`}
           alt={title}
           fill
           className="object-cover"

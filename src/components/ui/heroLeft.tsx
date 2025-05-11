@@ -16,7 +16,7 @@ export default function HeroLeft({
     <div className="relative w-full h-[300px] sm:h-[400px] md:h-auto rounded-md overflow-hidden">
       {/* Background Image */}
       <Image
-        src={imageUrl}
+        src={`http://localhost:8000/uploads/${imageUrl}`}
         alt={title}
         fill
         className="object-cover"

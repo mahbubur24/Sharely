@@ -1,5 +1,6 @@
-import Image from "next/image";
+"use client";
 import { Card, CardContent } from "@/components/ui/card";
+import Image from "next/image";
 import { QuoteBlock } from "./QuoteBlock";
 
 type BlogPostProps = {
@@ -19,18 +20,27 @@ export function BlogPost({
   imageAlt = "Post image",
   content,
 }: BlogPostProps) {
+  const rawDate = "2025-05-10T12:34:56Z";
+  const newDate = new Date(rawDate);
+
+  const publishDate = newDate.toLocaleDateString("en-GB", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  });
   return (
     <Card className="max-w-3xl mx-auto rounded-none py-6 bg-white text-black shadow-none border-none">
       <CardContent className="space-y-5">
         <h1 className="text-3xl font-bold leading-snug">{title}</h1>
 
         <p className="text-sm text-muted-foreground">
-          By <span className="text-black font-medium">{author}</span> / {date}
+          By <span className="text-black font-medium">{author}</span> /{" "}
+          {publishDate}
         </p>
 
         <div className="rounded-md overflow-hidden">
           <Image
-            src={imageUrl}
+            src={`http://localhost:8000/uploads/${imageUrl}`}
             alt={imageAlt}
             width={800}
             height={450}
@@ -38,9 +48,10 @@ export function BlogPost({
           />
         </div>
 
-        <p className="text-lg leading-relaxed text-muted-foreground text-gray-600">
-          {content}
-        </p>
+        <div
+          className="text-lg leading-relaxed  text-gray-600"
+          dangerouslySetInnerHTML={{ __html: content }}
+        ></div>
         <QuoteBlock>
           Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
           officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde

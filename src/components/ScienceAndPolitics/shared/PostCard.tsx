@@ -8,7 +8,7 @@ function PostCard({ card }: { card: CardData }) {
     <Link href={`/posts/${card?.id}`} className="space-y-5">
     <div className="w-full h-[350px] relative">
       <Image
-        src={card.imageUrl}
+        src={`http://localhost:8000/uploads/${card.imageUrl}`}
         alt="Post image"
         fill
         className="object-cover"

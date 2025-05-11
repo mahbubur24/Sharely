@@ -40,7 +40,7 @@ type Post = {
 //   },
 // });
 
-export default function page() {
+export default function Page() {
   const [posts, setPosts] = useState<Post[]>([]);
   useEffect(() => {
     async function getAllPost() {
@@ -61,7 +61,7 @@ export default function page() {
 
   return (
     <UserProvider>
-      <div className=" px-2  my-10">
+      <div className=" mx-10 px-2  my-10">
         <h1 className="text-4xl">All Posts :</h1>
         <div className=" my-10">
           {posts?.map((post) => (

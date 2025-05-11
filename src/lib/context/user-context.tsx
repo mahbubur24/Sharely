@@ -19,6 +19,7 @@ type User = {
 type UserContextType = {
   user: User | null;
   loading: boolean;
+  setUser: (data: User | null) => void;
 };
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -26,22 +27,25 @@ const UserContext = createContext<UserContextType | undefined>(undefined);
 export function UserProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  console.log({ user });
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await axios.get(
-          "http://localhost:8000/api/v1/auth/getUser",
-          {
-            withCredentials: true,
+        if (!user) {
+          const res = await axios.get(
+            "http://localhost:8000/api/v1/auth/getUser",
+            {
+              withCredentials: true,
+            }
+          );
+
+          if (!res.data.success) {
+            throw new Error("Failed to fetch user");
           }
-        );
 
-        if (!res.data.success) {
-          throw new Error("Failed to fetch user");
+          setUser(res.data.data);
         }
-
-        setUser(res.data.data);
       } catch (err) {
         console.error("User fetch error:", err);
         setUser(null);
@@ -54,7 +58,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
   }, []);
 
   return (
-    <UserContext.Provider value={{ user, loading }}>
+    <UserContext.Provider value={{ user, loading, setUser }}>
       {children}
     </UserContext.Provider>
   );

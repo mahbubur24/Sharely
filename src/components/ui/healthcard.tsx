@@ -1,19 +1,29 @@
-import { CardItem } from "@/lib/types/types";
+import PostMeta from "@/components/shared/PostMeta";
+import ShareableBadge from "@/components/shared/ShareableBadge";
 import Image from "next/image";
 import Link from "next/link";
-import ShareableBadge from "@/components/shared/ShareableBadge";
-import PostMeta from "@/components/shared/PostMeta";
 
-export interface CardProps {
-  card: CardItem;
-}
-export default function Card({ card }: CardProps) {
+type CardProps = {
+  card: {
+    id: string;
+    title: string;
+    images: string[];
+    date: Date;
+  };
+};
+export default function Card({
+  card,
+  cardTitle,
+}: {
+  card: any;
+  cardTitle: string;
+}) {
   return (
-    <Link href={`/posts/${card?.id}`} key={card?.id} className="group">
+    <Link href={`/posts/${card?.slug}`} key={card?.id} className="group">
       <div className="space-y-4">
         <div className="overflow-hidden rounded-md">
           <Image
-            src={card?.imageUrl}
+            src={`http://localhost:8000/uploads/${card.imageUrl}`}
             alt={card?.title}
             width={400}
             height={300}
@@ -21,7 +31,7 @@ export default function Card({ card }: CardProps) {
           />
         </div>
         <div className="space-y-2">
-          <ShareableBadge text={card?.category} />
+          <ShareableBadge text={cardTitle} />
           <PostMeta title={card?.title} date={card?.date} />
         </div>
       </div>

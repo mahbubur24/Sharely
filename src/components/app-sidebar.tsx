@@ -20,6 +20,8 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar";
 import axios from "axios";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { Button } from "./ui/button";
 
 // This is sample data.
@@ -95,12 +97,20 @@ const data = {
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const handleLogout = () => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const router = useRouter();
+
+  const handleLogout = async () => {
     try {
-      const res = axios.post("http://localhost:8000/api/v1/auth/logout", {
-        withCredentials: true,
-      });
+      const res = await axios.post(
+        "http://localhost:8000/api/v1/auth/logout",
+        {},
+        {
+          withCredentials: true,
+        }
+      );
       console.log({ res });
+      router.push("/");
     } catch (error) {
       if (axios.isAxiosError(error)) {
         console.log({ error });
@@ -119,7 +129,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarContent>
       <SidebarFooter>
         {/* <NavUser user={data.user} /> */}
-        <Button onClick={handleLogout}>Logout</Button>
+        <Button onClick={handleLogout} disabled={isSubmitting}>
+          Logout
+        </Button>
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

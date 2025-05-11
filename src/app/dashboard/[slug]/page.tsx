@@ -1,9 +1,9 @@
 import CommentForm from "@/components/comment-box/CommentForm";
 import { BlogPost } from "@/components/details/BlogPost";
 
-async function page({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = await params;
-  console.log(id);
+async function page({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  console.log(slug);
   const content = `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam facilisis orci consectetur, blandit justo ut, tempor turpis. Vestibulum facilisis condimentum hendrerit. Maecenas ac turpis egestas risus semper iaculis. Donec id lorem a ex porta viverra eget nec massa. Duis elementum mi vitae pretium euismod. Ut facilisis lacinia est, vel lobortis arcu aliquet in. Etiam sed hendrerit arcu. Vestibulum sit amet urna lorem. Quisque sed tellus eget arcu blandit pretium sagittis eget leo. Vestibulum vulputate velit nec sem gravida, quis commodo augue auctor. Cras hendrerit augue purus. Sed imperdiet velit vel tellus laoreet placerat. Phasellus bibendum eros ipsum, a scelerisque est placerat nec.
 
 Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore.

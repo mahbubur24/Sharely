@@ -1,5 +1,6 @@
 "use client";
 
+import { useUser } from "@/lib/context/user-context";
 import { AuthFormData, authSchema } from "@/lib/schemas/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
@@ -13,6 +14,7 @@ export function LoginForm() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const router = useRouter();
+  const { setUser } = useUser();
 
   const {
     register,
@@ -38,16 +40,15 @@ export function LoginForm() {
           withCredentials: true, // Important for sending/receiving cookies
         }
       );
-      
 
       if (res.data.success) {
         console.log(res.data.message);
+        setUser(res.data.data);
         router.push("/dashboard");
       } else {
         setError(res.data.message);
         return;
       }
-      
     } catch (err) {
       setError(err instanceof Error ? err.message : "Login failed");
     } finally {
