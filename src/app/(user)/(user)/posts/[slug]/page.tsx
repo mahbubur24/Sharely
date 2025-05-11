@@ -4,7 +4,11 @@ import { BlogPost } from "@/components/details/BlogPost";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-function page({ params }: { params: Promise<{ slug: string }> }) {
+export default function Page({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
   const [post, setPost] = useState<any>(null);
 
   useEffect(() => {
@@ -43,5 +47,3 @@ function page({ params }: { params: Promise<{ slug: string }> }) {
     </main>
   );
 }
-
-export default page;

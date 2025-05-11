@@ -20,8 +20,7 @@ export function BlogPost({
   imageAlt = "Post image",
   content,
 }: BlogPostProps) {
-  const rawDate = "2025-05-10T12:34:56Z";
-  const newDate = new Date(rawDate);
+  const newDate = new Date(date);
 
   const publishDate = newDate.toLocaleDateString("en-GB", {
     day: "numeric",

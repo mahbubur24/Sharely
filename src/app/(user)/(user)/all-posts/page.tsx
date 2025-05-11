@@ -40,7 +40,7 @@ type Post = {
 //   },
 // });
 
-export default function page() {
+export default function Page() {
   const [posts, setPosts] = useState<Post[]>([]);
   useEffect(() => {
     async function getAllPost() {
@@ -75,7 +75,6 @@ export default function page() {
               date={post.createdAt}
               comments={post.Comments.length}
               likes={post.Likes.length}
-              views={0}
             />
           ))}
         </div>

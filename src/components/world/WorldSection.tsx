@@ -1,7 +1,7 @@
 import { dummyData3 } from "@/static/navmenuItems";
 import Card from "../ui/healthcard";
-import WorldTopBar from "./WorldTopBar";
 import WorldContent from "./WorldContent";
+import WorldTopBar from "./WorldTopBar";
 
 function WorldSection() {
   return (
@@ -9,10 +9,10 @@ function WorldSection() {
       <WorldTopBar category={"World"} />
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
         {dummyData3.slice(0, 3).map((card) => {
-          return <Card key={card.id} card={card} />;
+          return <Card key={card.id} card={card} cardTitle="World" />;
         })}
       </div>
-      <WorldContent/>
+      <WorldContent />
     </div>
   );
 }

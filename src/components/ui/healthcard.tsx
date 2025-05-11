@@ -3,14 +3,7 @@ import ShareableBadge from "@/components/shared/ShareableBadge";
 import Image from "next/image";
 import Link from "next/link";
 
-type CardProps = {
-  card: {
-    id: string;
-    title: string;
-    images: string[];
-    date: Date;
-  };
-};
+
 export default function Card({
   card,
   cardTitle,

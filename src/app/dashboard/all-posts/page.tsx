@@ -39,7 +39,7 @@ type Post = {
 //   },
 // });
 
-export default function page() {
+export default function Page() {
   const [posts, setPosts] = useState<Post[]>([]);
   useEffect(() => {
     async function getAllPost() {
@@ -62,7 +62,7 @@ export default function page() {
     <div className="space-y-4 px-2  my-2">
       <h1 className="text-4xl">All Posts :</h1>
       <div className=" my-10">
-        {posts?.map((post, index) => (
+        {posts?.map((post) => (
           <PostCard
             key={post.id}
             images={post.images}
@@ -73,7 +73,7 @@ export default function page() {
             date={post.createdAt}
             comments={post.Comments.length}
             likes={post.Likes.length}
-            views={0}
+            
           />
         ))}
       </div>

@@ -1,5 +1,6 @@
 "use client";
 import { useUser } from "@/lib/context/user-context";
+import Image from "next/image";
 import Link from "next/link";
 
 interface PostCardProps {
@@ -14,7 +15,6 @@ interface PostCardProps {
   date: Date;
   comments: number;
   likes: number;
-  views: number;
 }
 
 const PostCard = ({
@@ -26,7 +26,6 @@ const PostCard = ({
   slug,
   comments,
   likes,
-  views,
 }: PostCardProps) => {
   const { user } = useUser();
 
@@ -44,7 +43,7 @@ const PostCard = ({
     <div className="flex gap-4 border-b py-4 bg-white p-2 rounded-sm my-1">
       {/* Post image */}
       <div className="w-24 h-24 flex-shrink-0">
-        <img
+        <Image
           src={`http://localhost:8000/uploads/${images?.[0]}`}
           alt={title.slice(0, 5)}
           className="w-full h-full object-cover rounded bg-black"

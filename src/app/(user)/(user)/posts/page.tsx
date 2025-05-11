@@ -75,7 +75,7 @@ export default function Page() {
               date={post.createdAt}
               comments={post.Comments.length}
               likes={post.Likes.length}
-              views={0}
+             
             />
           ))}
         </div>

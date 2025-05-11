@@ -230,7 +230,7 @@ export default function CreatePostForm() {
                 <FormField
                   control={form.control}
                   name="categories"
-                  render={({ field }) => (
+                  render={({  }) => (
                     <FormItem>
                       <FormLabel>Category :</FormLabel>
                       <FormControl>
