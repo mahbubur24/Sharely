@@ -103,7 +103,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const handleLogout = async () => {
     try {
       const res = await axios.post(
-        "http://localhost:8000/api/v1/auth/logout",
+        "https://sharely-backend.onrender.com/api/v1/auth/logout",
         {},
         {
           withCredentials: true,

@@ -12,7 +12,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
       try {
         const { id } = await params;
         const res = await axios.post(
-          `http://localhost:8000/api/v1/auth/getuserdata`,
+          `https://sharely-backend.onrender.com/api/v1/auth/getuserdata`,
           { id },
           { withCredentials: true }
         ); // Use actual backend URL
@@ -36,7 +36,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         {/* Avatar */}
         <div className="absolute -bottom-10 left-4">
           <Image
-            src={`http://localhost:8000/uploads/${user?.Profile?.avatarUrl}`}
+            src={`https://sharely-backend.onrender.com/uploads/${user?.Profile?.avatarUrl}`}
             alt="Profile"
             className="size-40 rounded-full border-4 border-white shadow-md object-cover"
           />

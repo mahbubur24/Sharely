@@ -16,7 +16,7 @@ export default function Page({
       try {
         const { slug } = await params;
         const res = await axios.post(
-          `http://localhost:8000/api/v1/post/single`,
+          `https://sharely-backend.onrender.com/api/v1/post/single`,
           { slug },
           { withCredentials: true }
         ); // Use actual backend URL

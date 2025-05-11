@@ -9,7 +9,7 @@ function TopStoriesArticle({ card }: { card: any }) {
       <div className="space-y-4">
         <div className="overflow-hidden rounded-md relative w-full h-[300px]">
           <Image
-            src={`http://localhost:8000/uploads/${card?.imageUrl}`}
+            src={`https://sharely-backend.onrender.com/uploads/${card?.imageUrl}`}
             alt={card?.title}
             fill
             className="object-cover group-hover:scale-105 transition-transform duration-300"

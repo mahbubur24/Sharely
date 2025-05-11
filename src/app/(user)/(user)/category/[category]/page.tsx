@@ -20,7 +20,7 @@ export default function HealthSection({
         setCategory(category);
 
         const posts = await axios.post(
-          "http://localhost:8000/api/v1/post/category",
+          "https://sharely-backend.onrender.com/api/v1/post/category",
           { category },
           { withCredentials: true }
         );

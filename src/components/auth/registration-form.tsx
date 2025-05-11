@@ -34,7 +34,7 @@ export function RegistrationForm() {
     try {
       console.log("Registering:", data);
       const status = await axios.post(
-        "http://localhost:8000/api/v1/auth/signup",
+        "https://sharely-backend.onrender.com/api/v1/auth/signup",
         {
           name,
           email,

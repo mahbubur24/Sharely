@@ -74,7 +74,7 @@ export default function CreatePostForm() {
     const fetchCategories = async () => {
       try {
         const res = await axios.get(
-          "http://localhost:8000/api/v1/category/all"
+          "https://sharely-backend.onrender.com/api/v1/category/all"
         ); // Replace with your actual endpoint
 
         setCategories(res.data.data);
@@ -105,7 +105,7 @@ export default function CreatePostForm() {
       console.log(formData.get("title"));
 
       const res = await axios.post(
-        "http://localhost:8000/api/v1/post/create",
+        "https://sharely-backend.onrender.com/api/v1/post/create",
         formData,
 
         {

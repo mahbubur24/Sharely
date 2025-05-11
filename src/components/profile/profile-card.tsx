@@ -23,7 +23,7 @@ const UserProfile: React.FC<UserProfileProps> = ({
         {/* Avatar */}
         <div className="absolute -bottom-10 left-4">
           <Image
-            src={`http://localhost:8000/uploads/${image}`}
+            src={`https://sharely-backend.onrender.com/uploads/${image}`}
             alt="Profile"
             className="w-20 h-20 rounded-full border-4 border-white shadow-md object-cover"
           />

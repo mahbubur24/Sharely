@@ -21,7 +21,7 @@ export default function HeroRight({
         {/* Left: Image */}
         <div className="relative w-full md:w-1/2 lg:w-1/2 h-52 mb-5 md:mb-0">
           <Image
-            src={`http://localhost:8000/uploads/${imageUrl}`}
+            src={`https://sharely-backend.onrender.com/uploads/${imageUrl}`}
             alt={title}
             fill
             className="object-cover"

@@ -45,7 +45,7 @@ export default function Page() {
   useEffect(() => {
     async function getAllPost() {
       try {
-        const res = await axios.get("http://localhost:8000/api/v1/post/all");
+        const res = await axios.get("https://sharely-backend.onrender.com/api/v1/post/all");
 
         setPosts(res.data.data);
       } catch (error) {

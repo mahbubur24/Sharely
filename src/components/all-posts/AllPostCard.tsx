@@ -44,7 +44,7 @@ const PostCard = ({
       {/* Post image */}
       <div className="w-24 h-24 flex-shrink-0">
         <Image
-          src={`http://localhost:8000/uploads/${images?.[0]}`}
+          src={`https://sharely-backend.onrender.com/uploads/${images?.[0]}`}
           alt={title.slice(0, 5)}
           className="w-full h-full object-cover rounded bg-black"
         />

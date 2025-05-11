@@ -15,7 +15,7 @@ function WorldContent() {
         {/* Left - Image */}
         <div className="relative w-full md:w-1/2 h-[400px]">
           <Image
-            src={`http://localhost:8000/uploads/`}
+            src={`https://sharely-backend.onrender.com/uploads/`}
             alt="Tagline Image"
             fill
             className="object-cover rounded-md"

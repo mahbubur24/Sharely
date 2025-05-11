@@ -16,7 +16,7 @@ export default function Card({
       <div className="space-y-4">
         <div className="overflow-hidden rounded-md">
           <Image
-            src={`http://localhost:8000/uploads/${card.imageUrl}`}
+            src={`https://sharely-backend.onrender.com/uploads/${card.imageUrl}`}
             alt={card?.title}
             width={400}
             height={300}

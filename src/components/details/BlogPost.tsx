@@ -39,7 +39,7 @@ export function BlogPost({
 
         <div className="rounded-md overflow-hidden">
           <Image
-            src={`http://localhost:8000/uploads/${imageUrl}`}
+            src={`https://sharely-backend.onrender.com/uploads/${imageUrl}`}
             alt={imageAlt}
             width={800}
             height={450}

@@ -1,7 +1,7 @@
 import { OverLaySectionProps } from "@/lib/types/types";
 import Image from "next/image";
-import ShareableBadge from "./ShareableBadge";
 import Link from "next/link";
+import ShareableBadge from "./ShareableBadge";
 
 export default function OverLaySection({
   id,
@@ -17,7 +17,7 @@ export default function OverLaySection({
       <div className={`relative w-full ${height} rounded-md overflow-hidden`}>
         {/* Background Image */}
         <Image
-           src={`http://localhost:8000/uploads/${imageUrl}`}
+           src={`https://sharely-backend.onrender.com/uploads/${imageUrl}`}
           alt={title}
           fill
           className="object-cover"
