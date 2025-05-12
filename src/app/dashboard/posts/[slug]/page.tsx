@@ -53,6 +53,7 @@ export default function Page({
           date={publishDate}
           imageUrl={post?.images?.[0]}
           content={post?.content}
+          like={post?._count?.Likes}
         />
         <AuthorCommentForm postId={post?.id} />
       </div>

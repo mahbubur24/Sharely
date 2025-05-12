@@ -1,6 +1,5 @@
 "use client";
 import PostCard from "@/components/all-posts/AllPostCard";
-import { UserProvider } from "@/lib/context/user-context";
 import axios from "axios";
 import { useEffect, useState } from "react";
 type Post = {
@@ -13,7 +12,7 @@ type Post = {
   content: string;
   slug: string;
   Comments: string[];
-  _count:any;
+  _count: any;
   Disikes: {
     userId: string;
     postId: string;
@@ -39,7 +38,6 @@ type Post = {
 
 export default function Page() {
   const [posts, setPosts] = useState<Post[]>([]);
-
   useEffect(() => {
     async function getAllPost() {
       try {
@@ -58,25 +56,23 @@ export default function Page() {
   console.log({ posts });
 
   return (
-    <UserProvider>
-      <div className=" mx-10 px-2  my-10">
-        <h1 className="text-4xl">All Posts :</h1>
-        <div className=" my-10">
-          {posts?.map((post) => (
-            <PostCard
-              key={post.id}
-              images={post.images}
-              title={post.title}
-              slug={post.slug}
-              content={post.content}
-              author={post.Author}
-              date={post.createdAt}
-              comments={post.Comments.length}
-              likes={post._count.Likes}
-            />
-          ))}
-        </div>
+    <div className="space-y-4 px-2  my-2">
+      <h1 className="text-4xl">All Posts :</h1>
+      <div className=" my-10">
+        {posts?.map((post) => (
+          <PostCard
+            key={post.id}
+            images={post.images}
+            title={post.title}
+            slug={post.slug}
+            content={post.content}
+            author={post.Author}
+            date={post.createdAt}
+            comments={post.Comments.length}
+            likes={post._count.Likes}
+          />
+        ))}
       </div>
-    </UserProvider>
+    </div>
   );
 }

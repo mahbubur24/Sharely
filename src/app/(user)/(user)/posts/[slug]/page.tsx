@@ -22,10 +22,7 @@ export default function Page({
           { withCredentials: true }
         );
         setPost(posts.data.data);
-        const comments = await axios.post(
-          "http://localhost:8000/api/v1/comment/all",
-          post.id
-        );
+       
       } catch (error) {
         if (axios.isAxiosError(error)) {
           console.log({ error });
@@ -35,6 +32,8 @@ export default function Page({
     getPost();
   }, []);
   console.log({ post });
+  console.log(post._count.Likes);
+  
 
   return (
     <main className="w-full bg-[#F5F5F5] m-auto p-10 shadow-gray-500 font-lexend">
@@ -46,6 +45,7 @@ export default function Page({
           date={post?.createdAt}
           imageUrl="https://websitedemos.net/news-blog-04/wp-content/uploads/sites/1516/2025/02/post-18.jpg"
           content={post?.content}
+          like={post?._count?.Likes}
         />
         <AuthorCommentForm postId={post?.id} />
       </div>
