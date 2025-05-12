@@ -1,4 +1,3 @@
-import Image from "next/image";
 import React from "react";
 
 interface UserProfileProps {
@@ -22,8 +21,8 @@ const UserProfile: React.FC<UserProfileProps> = ({
       <div className="bg-gradient-to-r from-yellow-200 via-pink-200 to-pink-300 h-40 rounded-t-xl relative">
         {/* Avatar */}
         <div className="absolute -bottom-10 left-4">
-          <Image
-            src={`https://sharely-backend.onrender.com/uploads/${image}`}
+          <img
+            src={`http://localhost:8000/uploads/${image}`}
             alt="Profile"
             className="w-20 h-20 rounded-full border-4 border-white shadow-md object-cover"
           />

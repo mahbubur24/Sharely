@@ -2,7 +2,6 @@
 
 import { Badge } from "@/components/ui/badge";
 import { HeroFeatureType } from "@/lib/types/types";
-import Image from "next/image";
 import Link from "next/link";
 
 export default function HeroLeft({
@@ -15,12 +14,10 @@ export default function HeroLeft({
   return (
     <div className="relative w-full h-[300px] sm:h-[400px] md:h-auto rounded-md overflow-hidden">
       {/* Background Image */}
-      <Image
-        src={`https://sharely-backend.onrender.com/uploads/${imageUrl}`}
+      <img
+        src={`http://localhost:8000/uploads/${imageUrl}`}
         alt={title}
-        fill
         className="object-cover"
-        priority
       />
 
       {/* Dark Overlay */}

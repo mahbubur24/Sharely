@@ -1,7 +1,5 @@
 "use client";
 
-import Image from "next/image";
-
 type AuthorCardProps = {
   name: string;
   role: string;
@@ -16,7 +14,11 @@ const AuthorCard = ({ name, role, imageUrl, onSignOut }: AuthorCardProps) => {
         <div className="flex items-center space-x-4">
           <div className="w-14 h-14 relative rounded-full overflow-hidden">
             {imageUrl && (
-              <Image  src={`https://sharely-backend.onrender.com/uploads/${imageUrl}`} alt={name} fill className="object-cover" />
+              <img
+                src={`http://localhost:8000/uploads/${imageUrl}`}
+                alt={name}
+                className="object-cover"
+              />
             )}
           </div>
           <div>

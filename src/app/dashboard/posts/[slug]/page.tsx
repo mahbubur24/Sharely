@@ -1,5 +1,5 @@
 "use client";
-import CommentForm from "@/components/comment-box/CommentForm";
+import AuthorCommentForm from "@/components/comment-box/AuthorCommeneForm";
 import { BlogPost } from "@/components/details/BlogPost";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -16,7 +16,7 @@ export default function Page({
       try {
         const { slug } = await params;
         const res = await axios.post(
-          `https://sharely-backend.onrender.com/api/v1/post/single`,
+          `http://localhost:8000/api/v1/post/single`,
           { slug },
           { withCredentials: true }
         ); // Use actual backend URL
@@ -47,13 +47,14 @@ export default function Page({
     <main className="w-full bg-[#F5F5F5] m-auto p-10 shadow-gray-500 font-lexend">
       <div className="max-w-3xl m-auto">
         <BlogPost
+          id={post?.id}
           title={post?.title}
           author={post?.Author?.name}
           date={publishDate}
           imageUrl={post?.images?.[0]}
           content={post?.content}
         />
-        <CommentForm />
+        <AuthorCommentForm postId={post?.id} />
       </div>
     </main>
   );

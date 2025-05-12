@@ -31,7 +31,7 @@ export function LoginForm() {
     try {
       console.log("Logging in:", data);
       const res = await axios.post(
-        "https://sharely-backend.onrender.com/api/v1/auth/login",
+        "http://localhost:8000/api/v1/auth/login",
         {
           email,
           password,

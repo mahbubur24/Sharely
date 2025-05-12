@@ -1,4 +1,3 @@
-import CommentForm from "@/components/comment-box/CommentForm";
 import { BlogPost } from "@/components/details/BlogPost";
 
 async function page({ params }: { params: Promise<{ slug: string }> }) {
@@ -18,13 +17,13 @@ Nam in nisl nisl. Sed enim mauris, scelerisque a condimentum nec, porttitor in m
     <main className="w-full bg-[#F5F5F5] m-auto p-10 shadow-gray-500 font-lexend">
       <div className="max-w-3xl m-auto">
         <BlogPost
+        id=""
           title="Understanding the Evolution of Digital Art Marketplaces"
           author="kalpeshb"
           date="February 24, 2025"
           imageUrl="https://websitedemos.net/news-blog-04/wp-content/uploads/sites/1516/2025/02/post-18.jpg"
           content={content}
         />
-        <CommentForm />
       </div>
     </main>
   );

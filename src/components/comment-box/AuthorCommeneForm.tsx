@@ -1,44 +1,53 @@
 "use client";
 
-import { Checkbox } from "@/components/ui/checkbox";
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
+import axios from "axios";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import Button from "../shared/ButtonProps";
-import { FormInputField } from "../shared/form/FormInputField";
 
 const formSchema = z.object({
   comment: z.string().min(1, "Comment is required"),
-  name: z.string().min(1, "Name is required"),
-  email: z.string().email("Invalid email"),
-  website: z.string().optional(),
-  saveInfo: z.boolean().optional(),
 });
 
 type CommentFormValues = z.infer<typeof formSchema>;
 
-export default function CommentForm() {
+export default function AuthorCommentForm({ postId }: { postId: string }) {
   const form = useForm<CommentFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       comment: "",
-      name: "",
-      email: "",
-      website: "",
-      saveInfo: false,
     },
   });
 
-  function onSubmit(data: CommentFormValues) {
+  async function onSubmit(data: CommentFormValues) {
+    try {
+      const { comment } = data;
+      const res = await axios.post(
+        "http://localhost:8000/api/v1/comment/create",
+        {
+          comment,
+          postId,
+        },
+        {
+          withCredentials: true,
+        }
+      );
+      console.log(res.data);
+      form.reset();
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.log({ error });
+      }
+    }
     console.log("Submitted Comment:", data);
   }
 
@@ -74,46 +83,6 @@ export default function CommentForm() {
                   />
                 </FormControl>
                 <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          {/* Name, Email, Website */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <FormInputField
-              control={form.control}
-              name="name"
-              placeholder="Name*"
-            />
-            <FormInputField
-              control={form.control}
-              name="email"
-              placeholder="Email*"
-              type="email"
-            />
-            <FormInputField
-              control={form.control}
-              name="website"
-              placeholder="Website"
-            />
-          </div>
-
-          {/* Save Info Checkbox */}
-          <FormField
-            control={form.control}
-            name="saveInfo"
-            render={({ field }) => (
-              <FormItem className="flex items-start space-x-2">
-                <FormControl>
-                  <Checkbox
-                    checked={field.value}
-                    onCheckedChange={(checked) => field.onChange(checked)}
-                  />
-                </FormControl>
-                <FormLabel className="font-normal">
-                  Save my name, email, and website in this browser for the next
-                  time I comment.
-                </FormLabel>
               </FormItem>
             )}
           />

@@ -1,5 +1,5 @@
 "use client";
-import CommentForm from "@/components/comment-box/CommentForm";
+import AuthorCommentForm from "@/components/comment-box/AuthorCommeneForm";
 import { BlogPost } from "@/components/details/BlogPost";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -17,11 +17,15 @@ export default function Page({
         const { slug } = await params;
 
         const posts = await axios.post(
-          "https://sharely-backend.onrender.com/api/v1/post/single",
+          "http://localhost:8000/api/v1/post/single",
           { slug },
           { withCredentials: true }
         );
         setPost(posts.data.data);
+        const comments = await axios.post(
+          "http://localhost:8000/api/v1/comment/all",
+          post.id
+        );
       } catch (error) {
         if (axios.isAxiosError(error)) {
           console.log({ error });
@@ -36,13 +40,14 @@ export default function Page({
     <main className="w-full bg-[#F5F5F5] m-auto p-10 shadow-gray-500 font-lexend">
       <div className="max-w-3xl m-auto">
         <BlogPost
+          id={post?.id}
           title={post?.title}
           author={post?.Author?.name}
           date={post?.createdAt}
           imageUrl="https://websitedemos.net/news-blog-04/wp-content/uploads/sites/1516/2025/02/post-18.jpg"
           content={post?.content}
         />
-        <CommentForm />
+        <AuthorCommentForm postId={post?.id} />
       </div>
     </main>
   );

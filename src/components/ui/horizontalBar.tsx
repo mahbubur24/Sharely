@@ -13,7 +13,7 @@ export default function HorizontalBar() {
     (async () => {
       try {
         const res = await axios.get(
-          "https://sharely-backend.onrender.com/api/v1/category/all"
+          "http://localhost:8000/api/v1/category/all"
         );
         setMenus(res.data.data);
       } catch (error) {

@@ -1,8 +1,6 @@
 import PostMeta from "@/components/shared/PostMeta";
 import ShareableBadge from "@/components/shared/ShareableBadge";
-import Image from "next/image";
 import Link from "next/link";
-
 
 export default function Card({
   card,
@@ -15,8 +13,8 @@ export default function Card({
     <Link href={`/posts/${card?.slug}`} key={card?.id} className="group">
       <div className="space-y-4">
         <div className="overflow-hidden rounded-md">
-          <Image
-            src={`https://sharely-backend.onrender.com/uploads/${card.imageUrl}`}
+          <img
+            src={`http://localhost:8000/uploads/${card.imageUrl}`}
             alt={card?.title}
             width={400}
             height={300}

@@ -1,5 +1,4 @@
 import { foregroundContent } from "@/static/constants";
-import Image from "next/image";
 import Button from "../shared/ButtonProps";
 
 function WorldContent() {
@@ -14,10 +13,9 @@ function WorldContent() {
       >
         {/* Left - Image */}
         <div className="relative w-full md:w-1/2 h-[400px]">
-          <Image
-            src={`https://sharely-backend.onrender.com/uploads/`}
+          <img
+            src={`http://localhost:8000/uploads/`}
             alt="Tagline Image"
-            fill
             className="object-cover rounded-md"
           />
         </div>

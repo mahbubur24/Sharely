@@ -6,12 +6,12 @@ import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
 import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
@@ -57,7 +57,7 @@ export function AddCategoryForm({
     try {
       if (!isEdit) {
         const res = await axios.post(
-          "https://sharely-backend.onrender.com/api/v1/category/create",
+          "http://localhost:8000/api/v1/category/create",
           {
             name,
           }
@@ -74,7 +74,7 @@ export function AddCategoryForm({
         }
       } else {
         const res = await axios.post(
-          "https://sharely-backend.onrender.com/api/v1/category/create",
+          "http://localhost:8000/api/v1/category/create",
           {
             name,
           }

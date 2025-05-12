@@ -1,9 +1,11 @@
 "use client";
 import { Card, CardContent } from "@/components/ui/card";
-import Image from "next/image";
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { QuoteBlock } from "./QuoteBlock";
 
 type BlogPostProps = {
+  id: string;
   title: string;
   author: string;
   date: string;
@@ -13,6 +15,7 @@ type BlogPostProps = {
 };
 
 export function BlogPost({
+  id,
   title,
   author,
   date,
@@ -20,8 +23,27 @@ export function BlogPost({
   imageAlt = "Post image",
   content,
 }: BlogPostProps) {
-  const newDate = new Date(date);
+  const [comments, setComments] = useState<any>(null);
+  useEffect(() => {
+    async function getPost() {
+      try {
+        const newcomments = await axios.post(
+          "http://localhost:8000/api/v1/comment/all",
+          { id }
+        );
+        setComments(newcomments.data.data);
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          console.log({ error });
+        }
+      }
+    }
+    getPost();
+  }, [id]);
 
+  console.log({ comments });
+
+  const newDate = new Date(date);
   const publishDate = newDate.toLocaleDateString("en-GB", {
     day: "numeric",
     month: "short",
@@ -38,8 +60,8 @@ export function BlogPost({
         </p>
 
         <div className="rounded-md overflow-hidden">
-          <Image
-            src={`https://sharely-backend.onrender.com/uploads/${imageUrl}`}
+          <img
+            src={`http://localhost:8000/uploads/${imageUrl}`}
             alt={imageAlt}
             width={800}
             height={450}
@@ -51,12 +73,15 @@ export function BlogPost({
           className="text-lg leading-relaxed  text-gray-600"
           dangerouslySetInnerHTML={{ __html: content }}
         ></div>
-        <QuoteBlock>
-          Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
-          officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde
-          omnis iste natus error sit voluptatem accusantium doloremque
-          laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore.
-        </QuoteBlock>
+
+        {comments?.map((comment: any) => {
+          return (
+            <QuoteBlock key={comment?.id}>
+              <h2>Commentor : {comment?.Author?.name}</h2>
+              <p>{comment.content}</p>
+            </QuoteBlock>
+          );
+        })}
       </CardContent>
     </Card>
   );

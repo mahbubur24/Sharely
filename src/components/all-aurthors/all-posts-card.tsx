@@ -1,4 +1,3 @@
-import Image from "next/image";
 import React from "react";
 
 interface Author {
@@ -28,7 +27,7 @@ const AuthorCard: React.FC<AuthorCardProps> = ({ author }) => {
       </span>
 
       <div className="flex gap-4 items-start">
-        <Image
+        <img
           src={image}
           alt={name}
           className="w-16 h-16 rounded-full object-cover border"

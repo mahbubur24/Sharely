@@ -2,7 +2,6 @@
 
 import { isImageFile } from "@/lib/utility/is-image-file";
 import { X } from "lucide-react";
-import Image from "next/image";
 import { useRef, useState } from "react";
 
 export function FileUploader({
@@ -85,7 +84,7 @@ export function FileUploader({
         {oldImage?.map((url, i) => (
           <div className="w-24 relative" key={i}>
             <div className="size-24">
-              <Image
+              <img
                 src={`/api/images/books/${url}`}
                 alt=""
                 className="object-contain size-24 border"
@@ -108,7 +107,7 @@ export function FileUploader({
           <div className="w-24 relative" key={i}>
             <div className="size-24">
               {isImageFile(f) ? (
-                <Image
+                <img
                   src={URL.createObjectURL(f)}
                   alt=""
                   className="object-contain size-24 border"

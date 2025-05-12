@@ -1,7 +1,6 @@
 "use client";
 
 import { HeroFeatureType } from "@/lib/types/types";
-import Image from "next/image";
 import Link from "next/link";
 import { Badge } from "./badge";
 
@@ -20,10 +19,9 @@ export default function HeroRight({
       >
         {/* Left: Image */}
         <div className="relative w-full md:w-1/2 lg:w-1/2 h-52 mb-5 md:mb-0">
-          <Image
-            src={`https://sharely-backend.onrender.com/uploads/${imageUrl}`}
+          <img
+            src={`http://localhost:8000/uploads/${imageUrl}`}
             alt={title}
-            fill
             className="object-cover"
           />
         </div>

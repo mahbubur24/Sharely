@@ -1,6 +1,5 @@
 "use client";
 import { useUser } from "@/lib/context/user-context";
-import Image from "next/image";
 import Link from "next/link";
 
 interface PostCardProps {
@@ -13,7 +12,7 @@ interface PostCardProps {
     name: string;
   };
   date: Date;
-  comments: number;
+  comments:number;
   likes: number;
 }
 
@@ -43,8 +42,8 @@ const PostCard = ({
     <div className="flex gap-4 border-b py-4 bg-white p-2 rounded-sm my-1">
       {/* Post image */}
       <div className="w-24 h-24 flex-shrink-0">
-        <Image
-          src={`https://sharely-backend.onrender.com/uploads/${images?.[0]}`}
+        <img
+          src={`http://localhost:8000/uploads/${images?.[0]}`}
           alt={title.slice(0, 5)}
           className="w-full h-full object-cover rounded bg-black"
         />
@@ -67,8 +66,8 @@ const PostCard = ({
           {/* <AuthorHoverWrapper author={author} date={date} image={image} /> */}
         </div>
         <div className="text-xs text-gray-500 mt-1">
-          Comments: {comments} · Views: 0 · Likes: {likes} · Published on:{" "}
-          {publishDate}
+          Comments: {comments} · Views: 0 · Likes: {likes} · Published
+          on: {publishDate}
         </div>
       </div>
     </div>

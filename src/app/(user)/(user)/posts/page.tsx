@@ -42,10 +42,11 @@ type Post = {
 
 export default function Page() {
   const [posts, setPosts] = useState<Post[]>([]);
+
   useEffect(() => {
     async function getAllPost() {
       try {
-        const res = await axios.get("https://sharely-backend.onrender.com/api/v1/post/all");
+        const res = await axios.get("http://localhost:8000/api/v1/post/all");
 
         setPosts(res.data.data);
       } catch (error) {
@@ -75,7 +76,6 @@ export default function Page() {
               date={post.createdAt}
               comments={post.Comments.length}
               likes={post.Likes.length}
-             
             />
           ))}
         </div>
