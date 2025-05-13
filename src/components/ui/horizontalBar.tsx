@@ -43,7 +43,7 @@ export default function HorizontalBar() {
 
       {/* Menu Items */}
       <ul
-        className={` overflow-scroll sm:hide-scrollbar  sm:px-20 flex-col md:flex md:flex-row md:items-center md:justify-center gap-6 md:gap-8 
+        className={` overflowx-x-auto sm:hide-scrollbar  sm:px-20 flex-col md:flex md:flex-row md:items-center md:justify-center gap-6 md:gap-8 
           transition-all duration-500 ease-in-out
           ${
             isOpen
