@@ -38,6 +38,8 @@ export default function PublicCommentForm({ postId }: { postId: string }) {
     },
   });
 
+  console.log({ postId });
+
   function onSubmit(data: CommentFormValues) {
     console.log("Submitted Comment:", data);
   }
