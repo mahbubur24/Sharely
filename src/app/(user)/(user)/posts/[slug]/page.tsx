@@ -47,7 +47,7 @@ export default function Page({
           content={post?.content}
           like={post?._count?.Likes}
         />
-        <AuthorCommentForm postId={post?.id} />
+        {/* <AuthorCommentForm postId={post?.id} /> */}
       </div>
     </main>
   );

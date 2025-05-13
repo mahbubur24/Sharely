@@ -1,5 +1,4 @@
 import UserProfile from "@/components/profile/profile-card";
-import React from "react";
 
 function page() {
   return (
